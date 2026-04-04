@@ -1,0 +1,20 @@
+hello:
+  handler: src/hello/index.hello
+  events:
+    - httpApi:
+        path: /
+        method: get
+
+listUsers:
+  handler: src/users/index.listUsers
+  events:
+    - httpApi:
+        path: /users
+        method: get
+
+listProducts:
+  handler: src/products/index.listProducts
+  events:
+    - httpApi:
+        path: /products
+        method: get
