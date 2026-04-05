@@ -32,6 +32,13 @@ jobs:
       - name: Run tests
         run: npm test -- --passWithNoTests
 
+      - name: Validate secrets
+        run: |
+          echo "SERVERLESS_ACCESS_KEY set: ${{ secrets.SERVERLESS_ACCESS_KEY != '' }}"
+          echo "AWS_ACCESS_KEY_ID set: ${{ secrets.AWS_ACCESS_KEY_ID != '' }}"
+          echo "AWS_SECRET_ACCESS_KEY set: ${{ secrets.AWS_SECRET_ACCESS_KEY != '' }}"
+          echo "AWS_DEFAULT_REGION set: ${{ secrets.AWS_DEFAULT_REGION != '' }}"
+
       - name: Deploy to Dev
         run: npm run deploy:dev
         env:
