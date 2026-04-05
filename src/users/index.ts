@@ -1,1 +1,1 @@
-export { listUsers } from './users.controller';
+export { postConfirmation } from './users.controller';

@@ -1,5 +1,5 @@
 org: gberdejo
-service: template-lambda-aws
+service: user-port-confirmation
 
 plugins:
   - serverless-offline
@@ -17,6 +17,7 @@ build:
 custom:
   stage: ${opt:stage, 'dev'}
   env: ${file(config/${self:custom.stage}.yml)}
+  lambdaPostConfirmation: register
 
 provider:
   name: aws

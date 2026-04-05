@@ -9,7 +9,13 @@
     "format": "prettier --write \"src/**/*.ts\"",
     "format:check": "prettier --check \"src/**/*.ts\"",
     "test": "jest",
-    "test:watch": "jest --watch"
+    "test:watch": "jest --watch",
+    "deploy:dev": "serverless deploy --stage dev",
+    "deploy:staging": "serverless deploy --stage staging",
+    "deploy:prod": "serverless deploy --stage prod",
+    "remove:dev": "serverless remove --stage dev",
+    "remove:staging": "serverless remove --stage staging",
+    "remove:prod": "serverless remove --stage prod"
   },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.145",
@@ -25,5 +31,8 @@
     "ts-jest": "^29.4.6",
     "typescript": "^5.0.0",
     "typescript-eslint": "^8.0.0"
+  },
+  "dependencies": {
+    "axios": "^1.14.0"
   }
 }
