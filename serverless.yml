@@ -35,7 +35,7 @@ functions: ${file(config/functions.yml)}
 
 resources:
   Resources:
-    userPostConfirmationLogGroup:
+    UserPostConfirmationLogGroup:
       Type: AWS::Logs::LogGroup
       Properties:
         LogGroupName: /aws/lambda/${self:custom.project}-${self:custom.resource}-${self:custom.lambdaName}-${self:custom.stage}
