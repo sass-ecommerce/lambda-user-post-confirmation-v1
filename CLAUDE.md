@@ -42,7 +42,7 @@ serverless remove
 - **`src/users/index.ts`** — re-exports handlers; this is what `config/functions.yml` references (e.g. `src/users/index.listUsers`)
 - **`config/functions.yml`** — all Lambda function declarations (handler path + HTTP event); imported by `serverless.yml`
 - **`config/{stage}.yml`** — per-stage environment variables (`dev`, `staging`, `prod`); injected into `process.env` at runtime via `provider.environment`
-- **`serverless.yml`** — provider config; org `gberdejo`, service `user-port-confirmation`, runtime `nodejs22.x`; esbuild bundles TypeScript on deploy with `@aws-sdk/*` excluded (provided by Lambda runtime)
+- **`serverless.yml`** — provider config; org `gberdejo`, service `user-post-confirmation`, runtime `nodejs22.x`; esbuild bundles TypeScript on deploy with `@aws-sdk/*` excluded (provided by Lambda runtime)
 
 ## Key conventions
 

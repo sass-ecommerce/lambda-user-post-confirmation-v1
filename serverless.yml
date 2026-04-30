@@ -1,5 +1,5 @@
 org: gberdejo
-service: user-port-confirmation
+service: user-post-confirmation
 
 plugins:
   - serverless-offline
@@ -18,7 +18,7 @@ custom:
   stage: ${opt:stage, 'dev'}
   env: ${file(config/${self:custom.stage}.yml)}
   resource: lambda
-  lambdaName: user-port-confirmation
+  lambdaName: user-post-confirmation
   lambdaRoleArn: ${ssm:/${self:custom.stage}/ctv/iam/lambda-role-arn}
   project: ctv
 
