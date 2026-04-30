@@ -1,4 +1,4 @@
 userPostConfirmation:
   handler: src/users/index.postConfirmation
-  name: ${self:service}-${self:custom.stage}-${self:custom.lambdaPostConfirmation}
+  name: ${self:custom.project}-${self:custom.resource}-${self:custom.lambdaName}-${self:custom.stage}
   description: Cognito Post Confirmation trigger — registers the user after email/phone verification

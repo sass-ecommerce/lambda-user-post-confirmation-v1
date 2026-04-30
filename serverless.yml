@@ -9,7 +9,7 @@ build:
     bundle: true
     minify: false
     sourcemap: true
-    target: node22
+    target: node24
     platform: node
     external:
       - '@aws-sdk/*'
@@ -17,15 +17,26 @@ build:
 custom:
   stage: ${opt:stage, 'dev'}
   env: ${file(config/${self:custom.stage}.yml)}
-  lambdaPostConfirmation: register
+  resource: lambda
+  lambdaName: user-port-confirmation
+  lambdaRoleArn: ${ssm:/${self:custom.stage}/ctv/iam/lambda-role-arn}
+  project: ctv
 
 provider:
   name: aws
-  runtime: nodejs22.x
+  runtime: nodejs24.x
   stage: ${self:custom.stage}
+  stackName: ${self:custom.project}-${self:custom.resource}-${self:custom.lambdaName}-${self:custom.stage}
   environment: ${self:custom.env}
-  # Uncomment to easily set up a custom domain. Read the docs for more details:
-  # https://www.serverless.com/framework/docs/providers/aws/guide/domains
-  # domain: api.example.com
+  iam:
+    role: ${self:custom.lambdaRoleArn}
 
 functions: ${file(config/functions.yml)}
+
+resources:
+  Resources:
+    userPostConfirmationLogGroup:
+      Type: AWS::Logs::LogGroup
+      Properties:
+        LogGroupName: /aws/lambda/${self:custom.project}-${self:custom.resource}-${self:custom.lambdaName}-${self:custom.stage}
+        LogGroupClass: INFREQUENT_ACCESS
