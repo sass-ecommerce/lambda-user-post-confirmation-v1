@@ -120,12 +120,8 @@ jobs:
           MODULE_REF="${{ steps.resolve.outputs.module_ref }}"
           echo "🔀 Apuntando módulos a rama: $MODULE_REF"
           find . -name "main.tf" -exec sed -i "s/?ref=[^\"]*/?ref=${MODULE_REF}/g" {} +
-          echo "📦 URLs de módulos resueltas:"
-          grep -r "source" --include="main.tf" . | while IFS= read -r line; do
-            FILE=$(echo "$line" | cut -d: -f1)
-            URL=$(echo "$line" | grep -o '"[^"]*"' | tr -d '"')
-            echo "  📄 $FILE → $URL"
-          done
+          echo "📦 Sources resueltos:"
+          grep -r "source" --include="main.tf" .
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -244,12 +240,8 @@ jobs:
           MODULE_REF="${{ steps.resolve.outputs.module_ref }}"
           echo "🔀 Apuntando módulos a rama: $MODULE_REF"
           find . -name "main.tf" -exec sed -i "s/?ref=[^\"]*/?ref=${MODULE_REF}/g" {} +
-          echo "📦 URLs de módulos resueltas:"
-          grep -r "source" --include="main.tf" . | while IFS= read -r line; do
-            FILE=$(echo "$line" | cut -d: -f1)
-            URL=$(echo "$line" | grep -o '"[^"]*"' | tr -d '"')
-            echo "  📄 $FILE → $URL"
-          done
+          echo "📦 Sources resueltos:"
+          grep -r "source" --include="main.tf" .
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -328,12 +320,8 @@ jobs:
           MODULE_REF="${{ steps.resolve.outputs.module_ref }}"
           echo "🔀 Apuntando módulos a rama: $MODULE_REF"
           find . -name "main.tf" -exec sed -i "s/?ref=[^\"]*/?ref=${MODULE_REF}/g" {} +
-          echo "📦 URLs de módulos resueltas:"
-          grep -r "source" --include="main.tf" . | while IFS= read -r line; do
-            FILE=$(echo "$line" | cut -d: -f1)
-            URL=$(echo "$line" | grep -o '"[^"]*"' | tr -d '"')
-            echo "  📄 $FILE → $URL"
-          done
+          echo "📦 Sources resueltos:"
+          grep -r "source" --include="main.tf" .
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
