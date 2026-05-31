@@ -119,9 +119,9 @@ jobs:
         run: |
           MODULE_REF="${{ steps.resolve.outputs.module_ref }}"
           echo "🔀 Apuntando módulos a rama: $MODULE_REF"
-          find . -name "main.tf" -exec sed -i "s/?ref=[^\"]*/?ref=${MODULE_REF}/g" {} +
+          sed -i "s|\"sass-ecommerce/\([^/]*\)/\(.*\)\"|\"git::https://github.com/sass-ecommerce/\1.git//\2?ref=${MODULE_REF}\"|g" main.tf
           echo "📦 Sources resueltos:"
-          grep -r "source" --include="main.tf" .
+          grep "source" main.tf
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -239,9 +239,9 @@ jobs:
         run: |
           MODULE_REF="${{ steps.resolve.outputs.module_ref }}"
           echo "🔀 Apuntando módulos a rama: $MODULE_REF"
-          find . -name "main.tf" -exec sed -i "s/?ref=[^\"]*/?ref=${MODULE_REF}/g" {} +
+          sed -i "s|\"sass-ecommerce/\([^/]*\)/\(.*\)\"|\"git::https://github.com/sass-ecommerce/\1.git//\2?ref=${MODULE_REF}\"|g" main.tf
           echo "📦 Sources resueltos:"
-          grep -r "source" --include="main.tf" .
+          grep "source" main.tf
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -319,9 +319,9 @@ jobs:
         run: |
           MODULE_REF="${{ steps.resolve.outputs.module_ref }}"
           echo "🔀 Apuntando módulos a rama: $MODULE_REF"
-          find . -name "main.tf" -exec sed -i "s/?ref=[^\"]*/?ref=${MODULE_REF}/g" {} +
+          sed -i "s|\"sass-ecommerce/\([^/]*\)/\(.*\)\"|\"git::https://github.com/sass-ecommerce/\1.git//\2?ref=${MODULE_REF}\"|g" main.tf
           echo "📦 Sources resueltos:"
-          grep -r "source" --include="main.tf" .
+          grep "source" main.tf
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
