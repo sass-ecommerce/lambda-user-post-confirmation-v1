@@ -18,7 +18,7 @@ module "lambda" {
   }
 
   permissions = {
-    AllowCognitoInvoke = {
+    allow_cognito = {
       action     = "lambda:InvokeFunction"
       principal  = "cognito-idp.amazonaws.com"
       source_arn = var.cognito_user_pool_arn
