@@ -1,4 +1,15 @@
 userPostConfirmation:
-  handler: src/users/index.postConfirmation
-  name: ${self:custom.project}-${self:custom.resource}-${self:custom.lambdaName}-${self:custom.stage}
+  handler: src/post-confirmation/index.postConfirmation
   description: Cognito Post Confirmation trigger — registers the user after email/phone verification
+  events:
+    - httpApi:
+        path: /post-confirmation
+        method: post
+
+preToken:
+  handler: src/pre-token/index.preToken
+  description: Cognito Pre Token Generation V2 trigger — adds custom claims to the access token
+  events:
+    - httpApi:
+        path: /pre-token
+        method: post

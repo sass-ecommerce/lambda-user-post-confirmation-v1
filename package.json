@@ -2,6 +2,8 @@
   "name": "template-lambda-aws",
   "version": "1.0.0",
   "scripts": {
+    "build": "node esbuild.config.js",
+    "package": "zip -j post-confirmation.zip .build/post-confirmation/index.js .build/post-confirmation/index.js.map && zip -j pre-token.zip .build/pre-token/index.js .build/pre-token/index.js.map",
     "dev": "serverless offline start",
     "typecheck": "tsc --noEmit",
     "lint": "eslint src",
@@ -9,13 +11,7 @@
     "format": "prettier --write \"src/**/*.ts\"",
     "format:check": "prettier --check \"src/**/*.ts\"",
     "test": "jest",
-    "test:watch": "jest --watch",
-    "deploy:dev": "serverless deploy --stage dev",
-    "deploy:staging": "serverless deploy --stage staging",
-    "deploy:prod": "serverless deploy --stage prod",
-    "remove:dev": "serverless remove --stage dev",
-    "remove:staging": "serverless remove --stage staging",
-    "remove:prod": "serverless remove --stage prod"
+    "test:watch": "jest --watch"
   },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.145",
@@ -26,7 +22,6 @@
     "eslint-config-prettier": "^9.0.0",
     "jest": "^30.2.0",
     "prettier": "^3.0.0",
-    "serverless-esbuild": "^1.52.0",
     "serverless-offline": "^14.5.0",
     "ts-jest": "^29.4.6",
     "typescript": "^5.0.0",

@@ -1,4 +1,3 @@
-org: gberdejo
 service: user-post-confirmation
 
 plugins:
@@ -15,28 +14,11 @@ build:
       - '@aws-sdk/*'
 
 custom:
-  stage: ${opt:stage, 'dev'}
-  env: ${file(config/${self:custom.stage}.yml)}
-  resource: lambda
-  lambdaName: user-post-confirmation
-  lambdaRoleArn: ${ssm:/${self:custom.stage}/ctv/iam/lambda-role-arn}
-  project: ctv
+  env: ${file(config/dev.yml)}
 
 provider:
   name: aws
   runtime: nodejs24.x
-  stage: ${self:custom.stage}
-  stackName: ${self:custom.project}-${self:custom.resource}-${self:custom.lambdaName}-${self:custom.stage}
   environment: ${self:custom.env}
-  iam:
-    role: ${self:custom.lambdaRoleArn}
 
 functions: ${file(config/functions.yml)}
-
-resources:
-  Resources:
-    UserPostConfirmationLogGroup:
-      Type: AWS::Logs::LogGroup
-      Properties:
-        LogGroupName: /aws/lambda/${self:custom.project}-${self:custom.resource}-${self:custom.lambdaName}-${self:custom.stage}
-        LogGroupClass: INFREQUENT_ACCESS
