@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "build": "node esbuild.config.js",
-    "package": "zip -j post-confirmation.zip .build/post-confirmation/index.js .build/post-confirmation/index.js.map && zip -j pre-token.zip .build/pre-token/index.js .build/pre-token/index.js.map",
+    "package": "for dir in .build/*/; do name=$(basename \"$dir\"); zip -j \"${name}.zip\" \"${dir}index.js\" \"${dir}index.js.map\"; done",
     "dev": "serverless offline start",
     "typecheck": "tsc --noEmit",
     "lint": "eslint src",

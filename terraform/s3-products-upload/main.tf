@@ -1,6 +1,6 @@
 locals {
   function_name = "${var.project}-lambda-s3-products-upload-${var.stage}-01"
-  lambda_arn    = "arn:aws:lambda:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:function:${local.function_name}"
+  lambda_arn    = "arn:aws:lambda:${data.aws_region.current.region}:${data.aws_caller_identity.current.account_id}:function:${local.function_name}"
 }
 
 module "lambda" {
