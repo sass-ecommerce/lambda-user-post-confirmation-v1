@@ -13,3 +13,11 @@ preToken:
     - httpApi:
         path: /pre-token
         method: post
+
+productsUpload:
+  handler: src/s3-products-upload/index.productsUpload
+  description: S3 PUT event handler — logs incoming product file uploads from a bucket
+  events:
+    - httpApi:
+        path: /s3-products-upload
+        method: post

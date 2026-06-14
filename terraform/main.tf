@@ -18,3 +18,12 @@ module "pre_token" {
   stage                 = local.stage
   tags                  = local.tags
 }
+
+module "s3_products_upload" {
+  source = "./s3-products-upload"
+
+  project  = local.project
+  role_arn = data.aws_ssm_parameter.lambda_role_arn.value
+  stage    = local.stage
+  tags     = local.tags
+}
