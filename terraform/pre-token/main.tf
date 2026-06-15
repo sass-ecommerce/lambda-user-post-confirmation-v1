@@ -27,3 +27,11 @@ module "lambda" {
 
   tags = var.tags
 }
+
+resource "aws_lambda_permission" "cognito_pre_token" {
+  statement_id  = "AllowCognitoInvoke"
+  action        = "lambda:InvokeFunction"
+  function_name = module.lambda.function_name
+  principal     = "cognito-idp.amazonaws.com"
+  source_arn    = var.cognito_user_pool_arn
+}
