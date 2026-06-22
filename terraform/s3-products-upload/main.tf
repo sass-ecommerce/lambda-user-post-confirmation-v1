@@ -1,6 +1,14 @@
 locals {
   function_name = "${var.project}-lambda-s3-products-upload-${var.stage}-01"
   lambda_arn    = "arn:aws:lambda:${data.aws_region.current.region}:${data.aws_caller_identity.current.account_id}:function:${local.function_name}"
+
+  backend_urls = {
+    dev     = "https://backend-chapa-tu-venta-development.up.railway.app"
+    staging = "https://backend-chapa-tu-venta-staging.up.railway.app"
+    prod    = "https://backend-chapa-tu-venta.up.railway.app"
+  }
+
+  backend_url = local.backend_urls[var.stage]
 }
 
 module "lambda" {
@@ -15,7 +23,8 @@ module "lambda" {
   log_retention_days = 7
 
   environment_variables = {
-    STAGE = var.stage
+    STAGE       = var.stage
+    BACKEND_URL = local.backend_url
   }
 
   permissions = {
