@@ -10,5 +10,5 @@ output "lambda_arn" {
 
 output "event_rule_arn" {
   description = "ARN del EventBridge Rule"
-  value       = data.aws_cloudwatch_event_rule.this.arn
+  value       = local.rule_arn
 }
