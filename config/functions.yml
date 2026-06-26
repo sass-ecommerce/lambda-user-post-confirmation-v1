@@ -21,3 +21,11 @@ productsUpload:
     - httpApi:
         path: /s3-products-upload
         method: post
+
+eventBridgeProducts:
+  handler: src/eventbridge-products/index.eventBridgeProducts
+  description: EventBridge rule trigger — logs incoming product events
+  events:
+    - httpApi:
+        path: /eventbridge-products
+        method: post

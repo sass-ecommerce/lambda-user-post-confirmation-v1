@@ -27,3 +27,12 @@ module "s3_products_upload" {
   stage    = local.stage
   tags     = local.tags
 }
+
+module "eventbridge_products" {
+  source = "./eventbridge-products"
+
+  project  = local.project
+  role_arn = data.aws_ssm_parameter.lambda_role_arn.value
+  stage    = local.stage
+  tags     = local.tags
+}
