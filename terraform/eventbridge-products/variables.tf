@@ -2,6 +2,10 @@ variable "project" {
   type = string
 }
 
+variable "aws_region" {
+  type = string
+}
+
 variable "role_arn" {
   type = string
 }

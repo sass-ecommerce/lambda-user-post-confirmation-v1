@@ -22,17 +22,19 @@ module "pre_token" {
 module "s3_products_upload" {
   source = "./s3-products-upload"
 
-  project  = local.project
-  role_arn = data.aws_ssm_parameter.lambda_role_arn.value
-  stage    = local.stage
-  tags     = local.tags
+  project    = local.project
+  role_arn   = data.aws_ssm_parameter.lambda_role_arn.value
+  stage      = local.stage
+  aws_region = var.aws_region
+  tags       = local.tags
 }
 
 module "eventbridge_products" {
   source = "./eventbridge-products"
 
-  project  = local.project
-  role_arn = data.aws_ssm_parameter.lambda_role_arn.value
-  stage    = local.stage
-  tags     = local.tags
+  project    = local.project
+  role_arn   = data.aws_ssm_parameter.lambda_role_arn.value
+  stage      = local.stage
+  aws_region = var.aws_region
+  tags       = local.tags
 }
