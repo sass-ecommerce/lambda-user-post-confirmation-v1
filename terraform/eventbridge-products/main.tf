@@ -3,9 +3,9 @@ data "aws_ssm_parameter" "rule_products_arn" {
 }
 
 locals {
-  function_name          = "${var.project}-lambda-eventbridge-products-${var.stage}-01"
-  rule_name              = "${var.project}-rule-products-${var.stage}"
-  event_bus_name         = "${var.project}-event-bus-${var.stage}"
+  function_name           = "${var.project}-lambda-eventbridge-products-${var.stage}-01"
+  rule_name               = "${var.project}-rule-products-${var.stage}"
+  event_bus_name          = "${var.project}-event-bus-${var.stage}"
   dynamodb_table_products = "${var.project}-tbl-products-${var.stage}"
 }
 
