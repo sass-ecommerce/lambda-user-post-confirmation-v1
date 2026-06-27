@@ -23,3 +23,13 @@ output "eventbridge_products_rule_arn" {
   value       = module.eventbridge_products.event_rule_arn
   sensitive   = true
 }
+
+output "dynamodb_products_lambda_name" {
+  description = "Nombre de la Lambda dynamodb-products"
+  value       = module.dynamodb_products.lambda_name
+}
+
+output "api_products_url" {
+  description = "URL base del API REST de productos"
+  value       = "${aws_api_gateway_stage.this.invoke_url}/products"
+}

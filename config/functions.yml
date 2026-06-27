@@ -29,3 +29,14 @@ eventBridgeProducts:
     - httpApi:
         path: /eventbridge-products
         method: post
+
+dynamodbProducts:
+  handler: src/dynamodb-products/index.dynamodbProducts
+  description: HTTP GET handler — reads products from DynamoDB by id or tenantId
+  events:
+    - httpApi:
+        path: /products/{id}
+        method: get
+    - httpApi:
+        path: /products
+        method: get
