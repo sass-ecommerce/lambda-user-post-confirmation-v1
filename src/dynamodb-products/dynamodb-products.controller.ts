@@ -10,8 +10,11 @@ const TABLE_NAME = process.env.DYNAMODB_TABLE_PRODUCTS!;
 export const dynamodbProducts = async (
   event: APIGatewayProxyEventV2,
 ): Promise<APIGatewayProxyResultV2> => {
+  console.log(JSON.stringify({ event }));
   const id = event.pathParameters?.id;
   const tenantId = event.queryStringParameters?.tenantId;
+
+  console.log(JSON.stringify({ requestId: event.requestContext.requestId, id, tenantId }));
 
   if (id) {
     const result = await dynamo.send(
@@ -22,12 +25,14 @@ export const dynamodbProducts = async (
     );
 
     if (!result.Item) {
+      console.log(JSON.stringify({ requestId: event.requestContext.requestId, id, found: false }));
       return {
         statusCode: 404,
         body: JSON.stringify({ message: 'Product not found' }),
       };
     }
 
+    console.log(JSON.stringify({ requestId: event.requestContext.requestId, id, found: true }));
     return { statusCode: 200, body: JSON.stringify(result.Item) };
   }
 
@@ -40,9 +45,14 @@ export const dynamodbProducts = async (
       }),
     );
 
+    const count = result.Items?.length ?? 0;
+    console.log(JSON.stringify({ requestId: event.requestContext.requestId, tenantId, count }));
     return { statusCode: 200, body: JSON.stringify(result.Items ?? []) };
   }
 
+  console.log(
+    JSON.stringify({ requestId: event.requestContext.requestId, error: 'missing id or tenantId' }),
+  );
   return {
     statusCode: 400,
     body: JSON.stringify({ message: 'Provide id or tenantId as query parameter' }),
