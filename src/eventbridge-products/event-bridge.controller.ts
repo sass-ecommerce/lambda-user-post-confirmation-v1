@@ -29,6 +29,7 @@ async function handleProductCreated(detail: ProductCreatedDetail): Promise<void>
 }
 
 async function handleProductImage(detail: ProductImageDetail): Promise<void> {
+  console.log(JSON.stringify({ message: 'handleProductImage', detail }));
   const { id, tenantId, images } = detail;
 
   const { Item } = await dynamo.send(
