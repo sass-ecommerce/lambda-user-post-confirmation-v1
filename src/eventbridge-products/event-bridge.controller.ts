@@ -28,10 +28,15 @@ async function handleProductImage(detail: ProductImageDetail): Promise<void> {
     }),
   );
 
-  if (!Item) return;
+  if (!Item) {
+    console.log(JSON.stringify({ message: 'product not found', tenantId, id }));
+    return;
+  }
 
   const existingImages: ProductImage[] = Item.images ?? [];
   const mergedImages = [...existingImages, ...images];
+
+  console.log(JSON.stringify({ tenantId, id, existingCount: existingImages.length, newCount: images.length, totalCount: mergedImages.length }));
 
   await dynamo.send(
     new UpdateCommand({
