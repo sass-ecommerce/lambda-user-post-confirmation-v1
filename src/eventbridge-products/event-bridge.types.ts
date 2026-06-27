@@ -22,4 +22,4 @@ export interface ProductImageDetail {
 
 export type ProductEvent =
   | EventBridgeEvent<'product.created', ProductCreatedDetail>
-  | EventBridgeEvent<'product.image', ProductImageDetail>;
+  | EventBridgeEvent<'product.image.added', ProductImageDetail>;

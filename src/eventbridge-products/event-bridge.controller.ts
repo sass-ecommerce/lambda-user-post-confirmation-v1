@@ -1,6 +1,16 @@
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
-import { DynamoDBDocumentClient, GetCommand, PutCommand, UpdateCommand } from '@aws-sdk/lib-dynamodb';
-import { ProductCreatedDetail, ProductEvent, ProductImage, ProductImageDetail } from './event-bridge.types';
+import {
+  DynamoDBDocumentClient,
+  GetCommand,
+  PutCommand,
+  UpdateCommand,
+} from '@aws-sdk/lib-dynamodb';
+import {
+  ProductCreatedDetail,
+  ProductEvent,
+  ProductImage,
+  ProductImageDetail,
+} from './event-bridge.types';
 
 const client = new DynamoDBClient({ region: process.env.REGION });
 const dynamo = DynamoDBDocumentClient.from(client);
@@ -36,7 +46,15 @@ async function handleProductImage(detail: ProductImageDetail): Promise<void> {
   const existingImages: ProductImage[] = Item.images ?? [];
   const mergedImages = [...existingImages, ...images];
 
-  console.log(JSON.stringify({ tenantId, id, existingCount: existingImages.length, newCount: images.length, totalCount: mergedImages.length }));
+  console.log(
+    JSON.stringify({
+      tenantId,
+      id,
+      existingCount: existingImages.length,
+      newCount: images.length,
+      totalCount: mergedImages.length,
+    }),
+  );
 
   await dynamo.send(
     new UpdateCommand({
@@ -55,7 +73,7 @@ export const eventBridgeProducts = async (event: ProductEvent): Promise<void> =>
     case 'product.created':
       await handleProductCreated(event.detail);
       break;
-    case 'product.image':
+    case 'product.image.added':
       await handleProductImage(event.detail);
       break;
   }
