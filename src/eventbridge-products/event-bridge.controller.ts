@@ -30,37 +30,27 @@ async function handleProductCreated(detail: ProductCreatedDetail): Promise<void>
 
 async function handleProductImage(detail: ProductImageDetail): Promise<void> {
   console.log(JSON.stringify({ message: 'handleProductImage', detail }));
-  const { id, tenantId, images } = detail;
+  const { tenantId, images, productId } = detail;
 
   const { Item } = await dynamo.send(
     new GetCommand({
       TableName: TABLE_NAME,
-      Key: { tenantId, id },
+      Key: { tenantId, productId },
     }),
   );
 
   if (!Item) {
-    console.log(JSON.stringify({ message: 'product not found', tenantId, id }));
+    console.log(JSON.stringify({ message: 'product not found', tenantId, productId }));
     return;
   }
 
   const existingImages: ProductImage[] = Item.images ?? [];
   const mergedImages = [...existingImages, ...images];
 
-  console.log(
-    JSON.stringify({
-      tenantId,
-      id,
-      existingCount: existingImages.length,
-      newCount: images.length,
-      totalCount: mergedImages.length,
-    }),
-  );
-
   await dynamo.send(
     new UpdateCommand({
       TableName: TABLE_NAME,
-      Key: { tenantId, id },
+      Key: { tenantId, productId },
       UpdateExpression: 'SET images = :images',
       ExpressionAttributeValues: { ':images': mergedImages },
     }),

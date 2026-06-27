@@ -10,13 +10,15 @@ export interface ProductCreatedDetail {
 }
 
 export interface ProductImage {
+  id: string;
   s3Key: string;
-  filename: string;
+  isPrimary: boolean;
+  sortOrder: number;
 }
 
 export interface ProductImageDetail {
-  id: string;
   tenantId: string;
+  productId: string;
   images: ProductImage[];
 }
 
