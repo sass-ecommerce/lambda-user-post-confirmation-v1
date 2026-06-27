@@ -3,12 +3,7 @@ output "lambda_name" {
   value       = local.function_name
 }
 
-output "lambda_arn" {
-  description = "ARN de la Lambda Function"
-  value       = module.lambda.function_arn
-}
-
 output "event_rule_arn" {
   description = "ARN del EventBridge Rule"
-  value       = local.rule_arn
+  value       = data.aws_ssm_parameter.rule_products_arn.value
 }
