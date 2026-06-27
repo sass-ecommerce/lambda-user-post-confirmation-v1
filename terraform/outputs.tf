@@ -21,4 +21,5 @@ output "eventbridge_products_lambda_name" {
 output "eventbridge_products_rule_arn" {
   description = "ARN del EventBridge Rule de products"
   value       = module.eventbridge_products.event_rule_arn
+  sensitive   = true
 }
