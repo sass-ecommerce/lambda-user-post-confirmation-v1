@@ -50,7 +50,7 @@ async function handleProductImage(detail: ProductImageDetail): Promise<void> {
   await dynamo.send(
     new UpdateCommand({
       TableName: TABLE_NAME,
-      Key: { tenantId, productId },
+      Key: { tenantId, id: productId },
       UpdateExpression: 'SET images = :images',
       ExpressionAttributeValues: { ':images': mergedImages },
     }),
