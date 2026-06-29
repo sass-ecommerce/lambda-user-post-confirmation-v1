@@ -1,7 +1,7 @@
 import { EventBridgeEvent } from 'aws-lambda';
 
 export interface ProductCreatedDetail {
-  id: string;
+  productId: string;
   tenantId: string;
   categoryId: string;
   name: string;

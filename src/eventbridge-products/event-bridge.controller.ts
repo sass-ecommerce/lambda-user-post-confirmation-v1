@@ -18,12 +18,12 @@ const dynamo = DynamoDBDocumentClient.from(client);
 const TABLE_NAME = process.env.DYNAMODB_TABLE_PRODUCTS!;
 
 async function handleProductCreated(detail: ProductCreatedDetail): Promise<void> {
-  const { id, tenantId, categoryId, name, basePrice, isActive } = detail;
+  const { productId, tenantId, categoryId, name, basePrice, isActive } = detail;
 
   await dynamo.send(
     new PutCommand({
       TableName: TABLE_NAME,
-      Item: { id, tenantId, categoryId, name, basePrice, isActive, images: [] },
+      Item: { productId, tenantId, categoryId, name, basePrice, isActive, images: [] },
     }),
   );
 }
@@ -35,7 +35,7 @@ async function handleProductImage(detail: ProductImageDetail): Promise<void> {
   const { Item } = await dynamo.send(
     new GetCommand({
       TableName: TABLE_NAME,
-      Key: { tenantId, id: productId },
+      Key: { tenantId, productId },
     }),
   );
 
@@ -50,7 +50,7 @@ async function handleProductImage(detail: ProductImageDetail): Promise<void> {
   await dynamo.send(
     new UpdateCommand({
       TableName: TABLE_NAME,
-      Key: { tenantId, id: productId },
+      Key: { tenantId, productId },
       UpdateExpression: 'SET images = :images',
       ExpressionAttributeValues: { ':images': mergedImages },
     }),
