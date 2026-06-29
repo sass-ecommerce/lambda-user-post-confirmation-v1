@@ -23,7 +23,7 @@ async function handleProductCreated(detail: ProductCreatedDetail): Promise<void>
   await dynamo.send(
     new PutCommand({
       TableName: TABLE_NAME,
-      Item: { id, tenantId, categoryId, name, basePrice, isActive },
+      Item: { id, tenantId, categoryId, name, basePrice, isActive, images: [] },
     }),
   );
 }
@@ -35,7 +35,7 @@ async function handleProductImage(detail: ProductImageDetail): Promise<void> {
   const { Item } = await dynamo.send(
     new GetCommand({
       TableName: TABLE_NAME,
-      Key: { tenantId, productId },
+      Key: { tenantId, id: productId },
     }),
   );
 
