@@ -23,7 +23,16 @@ async function handleProductCreated(detail: ProductCreatedDetail): Promise<void>
   await dynamo.send(
     new PutCommand({
       TableName: TABLE_NAME,
-      Item: { productId, tenantId, categoryId, name, basePrice, isActive, images: [] },
+      Item: {
+        productId,
+        tenantId,
+        categoryId,
+        name,
+        basePrice,
+        isActive,
+        images: [],
+        createdAt: new Date().toISOString(),
+      },
     }),
   );
 }
@@ -51,8 +60,11 @@ async function handleProductImage(detail: ProductImageDetail): Promise<void> {
     new UpdateCommand({
       TableName: TABLE_NAME,
       Key: { tenantId, productId },
-      UpdateExpression: 'SET images = :images',
-      ExpressionAttributeValues: { ':images': mergedImages },
+      UpdateExpression: 'SET images = :images, updatedAt = :updatedAt',
+      ExpressionAttributeValues: {
+        ':images': mergedImages,
+        ':updatedAt': new Date().toISOString(),
+      },
     }),
   );
 }
