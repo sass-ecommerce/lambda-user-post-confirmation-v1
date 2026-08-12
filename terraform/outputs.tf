@@ -1,32 +1,32 @@
-output "post_confirmation_lambda_name" {
-  description = "Nombre de la Lambda user-post-confirmation"
-  value       = module.user_post_confirmation.lambda_name
+output "trigger_post_confirmation_lambda_name" {
+  description = "Nombre de la Lambda trigger-post-confirmation"
+  value       = module.trigger_post_confirmation.lambda_name
 }
 
-output "pre_token_lambda_name" {
-  description = "Nombre de la Lambda pre-token"
-  value       = module.pre_token.lambda_name
+output "trigger_pre_token_lambda_name" {
+  description = "Nombre de la Lambda trigger-pre-token"
+  value       = module.trigger_pre_token.lambda_name
 }
 
-output "s3_products_upload_lambda_name" {
-  description = "Nombre de la Lambda s3-products-upload"
-  value       = module.s3_products_upload.lambda_name
+output "trigger_products_upload_lambda_name" {
+  description = "Nombre de la Lambda trigger-products-upload"
+  value       = module.trigger_products_upload.lambda_name
 }
 
-output "eventbridge_products_lambda_name" {
-  description = "Nombre de la Lambda eventbridge-products"
-  value       = module.eventbridge_products.lambda_name
+output "event_rule_products_lambda_name" {
+  description = "Nombre de la Lambda event-rule-products"
+  value       = module.event_rule_products.lambda_name
 }
 
-output "eventbridge_products_rule_arn" {
+output "event_rule_products_rule_arn" {
   description = "ARN del EventBridge Rule de products"
-  value       = module.eventbridge_products.event_rule_arn
+  value       = module.event_rule_products.event_rule_arn
   sensitive   = true
 }
 
-output "dynamodb_products_lambda_name" {
-  description = "Nombre de la Lambda dynamodb-products"
-  value       = module.dynamodb_products.lambda_name
+output "get_dynamodb_products_lambda_name" {
+  description = "Nombre de la Lambda get-dynamodb-products"
+  value       = module.get_dynamodb_products.lambda_name
 }
 
 output "api_products_url" {

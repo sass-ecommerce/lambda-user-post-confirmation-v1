@@ -1,5 +1,5 @@
 locals {
-  function_name = "${var.project}-lambda-s3-products-upload-${var.stage}-01"
+  function_name = "${var.project}-lambda-trigger-products-upload-${var.stage}-01"
   lambda_arn    = "arn:aws:lambda:${var.aws_region}:${data.aws_caller_identity.current.account_id}:function:${local.function_name}"
 
   backend_urls = {
@@ -18,8 +18,8 @@ module "lambda" {
   runtime            = "nodejs24.x"
   handler            = "index.productsUpload"
   role_arn           = var.role_arn
-  filename           = "${path.module}/../../s3-products-upload.zip"
-  source_code_hash   = filebase64sha256("${path.module}/../../s3-products-upload.zip")
+  filename           = "${path.module}/../../trigger-products-upload.zip"
+  source_code_hash   = filebase64sha256("${path.module}/../../trigger-products-upload.zip")
   log_retention_days = 7
 
   environment_variables = {

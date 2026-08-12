@@ -1,1 +1,1 @@
-export { dynamodbProducts } from './dynamodb-products.controller';
+export { dynamodbProducts } from './get-dynamodb-products.controller';

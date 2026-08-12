@@ -7,10 +7,10 @@ resource "aws_cognito_user_pool" "this" {
   name = "${local.project}-user-pool-${local.stage}"
 
   lambda_config {
-    post_confirmation = module.user_post_confirmation.lambda_arn
+    post_confirmation = module.trigger_post_confirmation.lambda_arn
 
     pre_token_generation_config {
-      lambda_arn     = module.pre_token.lambda_arn
+      lambda_arn     = module.trigger_pre_token.lambda_arn
       lambda_version = "V2_0"
     }
   }

@@ -1,5 +1,5 @@
-module "user_post_confirmation" {
-  source = "./post-confirmation"
+module "trigger_post_confirmation" {
+  source = "./trigger-post-confirmation"
 
   project               = local.project
   cognito_user_pool_arn = tolist(data.aws_cognito_user_pools.this.arns)[0]
@@ -9,8 +9,8 @@ module "user_post_confirmation" {
   tags                  = local.tags
 }
 
-module "pre_token" {
-  source = "./pre-token"
+module "trigger_pre_token" {
+  source = "./trigger-pre-token"
 
   project               = local.project
   cognito_user_pool_arn = tolist(data.aws_cognito_user_pools.this.arns)[0]
@@ -19,8 +19,8 @@ module "pre_token" {
   tags                  = local.tags
 }
 
-module "s3_products_upload" {
-  source = "./s3-products-upload"
+module "trigger_products_upload" {
+  source = "./trigger-products-upload"
 
   project    = local.project
   role_arn   = data.aws_ssm_parameter.lambda_role_arn.value
@@ -29,8 +29,8 @@ module "s3_products_upload" {
   tags       = local.tags
 }
 
-module "eventbridge_products" {
-  source = "./eventbridge-products"
+module "event_rule_products" {
+  source = "./event-rule-products"
 
   project    = local.project
   role_arn   = data.aws_ssm_parameter.lambda_role_arn.value
@@ -39,8 +39,8 @@ module "eventbridge_products" {
   tags       = local.tags
 }
 
-module "dynamodb_products" {
-  source = "./dynamodb-products"
+module "get_dynamodb_products" {
+  source = "./get-dynamodb-products"
 
   project    = local.project
   role_arn   = data.aws_ssm_parameter.lambda_role_arn.value

@@ -1,1 +1,1 @@
-export { productsUpload } from './s3-products-upload.controller';
+export { productsUpload } from './trigger-products-upload.controller';

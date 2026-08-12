@@ -1,6 +1,6 @@
 locals {
   api_name          = "${local.project}-api-products-${local.stage}"
-  lambda_invoke_uri = "arn:aws:apigateway:${var.aws_region}:lambda:path/2015-03-31/functions/${module.dynamodb_products.lambda_arn}/invocations"
+  lambda_invoke_uri = "arn:aws:apigateway:${var.aws_region}:lambda:path/2015-03-31/functions/${module.get_dynamodb_products.lambda_arn}/invocations"
   api_body = templatefile("${path.module}/api-gateway.yaml", {
     api_name          = local.api_name
     lambda_invoke_uri = local.lambda_invoke_uri
@@ -35,10 +35,10 @@ resource "aws_api_gateway_stage" "this" {
   tags = local.tags
 }
 
-resource "aws_lambda_permission" "api_gateway_dynamodb_products" {
+resource "aws_lambda_permission" "api_gateway_get_dynamodb_products" {
   statement_id  = "AllowAPIGatewayInvoke"
   action        = "lambda:InvokeFunction"
-  function_name = module.dynamodb_products.lambda_name
+  function_name = module.get_dynamodb_products.lambda_name
   principal     = "apigateway.amazonaws.com"
   source_arn    = "${aws_api_gateway_rest_api.this.execution_arn}/*/*"
 }

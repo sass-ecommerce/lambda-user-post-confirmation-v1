@@ -1,1 +1,1 @@
-export { preToken } from './pre-token.controller';
+export { preToken } from './trigger-pre-token.controller';

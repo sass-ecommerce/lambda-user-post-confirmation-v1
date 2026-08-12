@@ -1,5 +1,5 @@
 locals {
-  function_name           = "${var.project}-lambda-dynamodb-products-${var.stage}-01"
+  function_name           = "${var.project}-lambda-get-dynamodb-products-${var.stage}-01"
   dynamodb_table_products = "${var.project}-tbl-products-${var.stage}"
 }
 
@@ -10,8 +10,8 @@ module "lambda" {
   runtime            = "nodejs24.x"
   handler            = "index.dynamodbProducts"
   role_arn           = var.role_arn
-  filename           = "${path.module}/../../dynamodb-products.zip"
-  source_code_hash   = filebase64sha256("${path.module}/../../dynamodb-products.zip")
+  filename           = "${path.module}/../../get-dynamodb-products.zip"
+  source_code_hash   = filebase64sha256("${path.module}/../../get-dynamodb-products.zip")
   log_retention_days = 7
 
   environment_variables = {

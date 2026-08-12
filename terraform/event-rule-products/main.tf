@@ -3,7 +3,7 @@ data "aws_ssm_parameter" "rule_products_arn" {
 }
 
 locals {
-  function_name           = "${var.project}-lambda-eventbridge-products-${var.stage}-01"
+  function_name           = "${var.project}-lambda-event-rule-products-${var.stage}-01"
   rule_name               = "${var.project}-rule-products-${var.stage}"
   event_bus_name          = "${var.project}-event-bus-${var.stage}"
   dynamodb_table_products = "${var.project}-tbl-products-${var.stage}"
@@ -16,8 +16,8 @@ module "lambda" {
   runtime            = "nodejs24.x"
   handler            = "index.eventBridgeProducts"
   role_arn           = var.role_arn
-  filename           = "${path.module}/../../eventbridge-products.zip"
-  source_code_hash   = filebase64sha256("${path.module}/../../eventbridge-products.zip")
+  filename           = "${path.module}/../../event-rule-products.zip"
+  source_code_hash   = filebase64sha256("${path.module}/../../event-rule-products.zip")
   log_retention_days = 7
 
   environment_variables = {
