@@ -1,9 +1,17 @@
 import { EventBridgeEvent } from 'aws-lambda';
 
+export interface CategoryAncestor {
+  id: string;
+  parentId: string | null;
+  name: string;
+  slug: string;
+}
+
 export interface ProductCreatedDetail {
   productId: string;
   tenantId: string;
   categoryId: string;
+  category: CategoryAncestor[];
   name: string;
   basePrice: number;
   isActive: boolean;

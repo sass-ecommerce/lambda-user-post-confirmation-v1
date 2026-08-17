@@ -18,7 +18,7 @@ const dynamo = DynamoDBDocumentClient.from(client);
 const TABLE_NAME = process.env.DYNAMODB_TABLE_PRODUCTS!;
 
 async function handleProductCreated(detail: ProductCreatedDetail): Promise<void> {
-  const { productId, tenantId, categoryId, name, basePrice, isActive } = detail;
+  const { productId, tenantId, categoryId, category, name, basePrice, isActive } = detail;
 
   await dynamo.send(
     new PutCommand({
@@ -27,6 +27,7 @@ async function handleProductCreated(detail: ProductCreatedDetail): Promise<void>
         productId,
         tenantId,
         categoryId,
+        category,
         name,
         basePrice,
         isActive,
