@@ -18,19 +18,11 @@ const dynamo = DynamoDBDocumentClient.from(client);
 const TABLE_NAME = process.env.DYNAMODB_TABLE_PRODUCTS!;
 
 async function handleProductCreated(detail: ProductCreatedDetail): Promise<void> {
-  const { productId, tenantId, categoryId, category, name, basePrice, isActive } = detail;
-
   await dynamo.send(
     new PutCommand({
       TableName: TABLE_NAME,
       Item: {
-        productId,
-        tenantId,
-        categoryId,
-        category,
-        name,
-        basePrice,
-        isActive,
+        ...detail,
         images: [],
         createdAt: new Date().toISOString(),
       },

@@ -15,6 +15,7 @@ export interface ProductCreatedDetail {
   name: string;
   basePrice: number;
   isActive: boolean;
+  attributes: Record<string, string>;
 }
 
 export interface ProductImage {
