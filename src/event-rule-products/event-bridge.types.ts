@@ -7,6 +7,12 @@ export interface CategoryAncestor {
   slug: string;
 }
 
+export interface ProductAttribute {
+  attributeKey: string;
+  attributeLabel: string;
+  value: string;
+}
+
 export interface ProductCreatedDetail {
   productId: string;
   tenantId: string;
@@ -15,7 +21,7 @@ export interface ProductCreatedDetail {
   name: string;
   basePrice: number;
   isActive: boolean;
-  attributes: Record<string, string>;
+  attributes: ProductAttribute[];
 }
 
 export interface ProductImage {
