@@ -1,11 +1,25 @@
 import { APIGatewayProxyEventV2, APIGatewayProxyResultV2 } from 'aws-lambda';
-import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
-import { DynamoDBDocumentClient, GetCommand, QueryCommand } from '@aws-sdk/lib-dynamodb';
+import { errorResponse, successResponse } from '../common';
+import { decodeCursor } from './cursor';
+import { getProductById } from './repositories/products.repository';
+import { listProducts } from './services/list-products.service';
 
-const client = new DynamoDBClient({ region: process.env.REGION });
-const dynamo = DynamoDBDocumentClient.from(client);
+const DEFAULT_LIMIT = 20;
+const MAX_LIMIT = 100;
 
-const TABLE_NAME = process.env.DYNAMODB_TABLE_PRODUCTS!;
+const parseLimit = (raw?: string): number | null => {
+  if (!raw) {
+    return DEFAULT_LIMIT;
+  }
+
+  const limit = Number(raw);
+
+  if (!Number.isInteger(limit) || limit < 1 || limit > MAX_LIMIT) {
+    return null;
+  }
+
+  return limit;
+};
 
 export const dynamodbProducts = async (
   event: APIGatewayProxyEventV2,
@@ -14,37 +28,32 @@ export const dynamodbProducts = async (
   const tenantId = event.queryStringParameters?.tenantId;
 
   if (!tenantId) {
-    return {
-      statusCode: 400,
-      body: JSON.stringify({ message: 'Provide tenantId as query parameter' }),
-    };
+    return errorResponse(400, 'Bad Request', 'Provide tenantId as query parameter');
   }
 
   if (id) {
-    const result = await dynamo.send(
-      new GetCommand({
-        TableName: TABLE_NAME,
-        Key: { tenantId, id },
-      }),
-    );
+    const item = await getProductById(tenantId, id);
 
-    if (!result.Item) {
-      return {
-        statusCode: 404,
-        body: JSON.stringify({ message: 'Product not found' }),
-      };
+    if (!item) {
+      return errorResponse(404, 'Not Found', 'Product not found');
     }
 
-    return { statusCode: 200, body: JSON.stringify(result.Item) };
+    return successResponse(200, 'Product retrieved successfully', item);
   }
 
-  const result = await dynamo.send(
-    new QueryCommand({
-      TableName: TABLE_NAME,
-      KeyConditionExpression: 'tenantId = :tenantId',
-      ExpressionAttributeValues: { ':tenantId': tenantId },
-    }),
-  );
+  const limit = parseLimit(event.queryStringParameters?.limit);
 
-  return { statusCode: 200, body: JSON.stringify(result.Items ?? []) };
+  if (limit === null) {
+    return errorResponse(400, 'Bad Request', `limit must be an integer between 1 and ${MAX_LIMIT}`);
+  }
+
+  let exclusiveStartKey;
+  try {
+    exclusiveStartKey = decodeCursor(event.queryStringParameters?.nextToken);
+  } catch {
+    return errorResponse(400, 'Bad Request', 'Invalid nextToken');
+  }
+
+  const result = await listProducts(tenantId, limit, exclusiveStartKey);
+  return successResponse(200, 'Products retrieved successfully', result);
 };
