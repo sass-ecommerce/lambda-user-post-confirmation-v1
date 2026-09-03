@@ -42,7 +42,10 @@ export interface ProductDeletedDetail {
   productId: string;
 }
 
+export type ProductUpdatedDetail = ProductCreatedDetail;
+
 export type ProductEvent =
   | EventBridgeEvent<'product.created', ProductCreatedDetail>
   | EventBridgeEvent<'product.image.added', ProductImageDetail>
-  | EventBridgeEvent<'product.deleted', ProductDeletedDetail>;
+  | EventBridgeEvent<'product.deleted', ProductDeletedDetail>
+  | EventBridgeEvent<'product.updated', ProductUpdatedDetail>;

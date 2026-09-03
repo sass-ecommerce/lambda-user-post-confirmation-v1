@@ -1,6 +1,6 @@
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import { DeleteCommand, DynamoDBDocumentClient, GetCommand, PutCommand, UpdateCommand } from '@aws-sdk/lib-dynamodb';
-import { ProductCreatedDetail, ProductImage } from '../event-bridge.types';
+import { ProductCreatedDetail, ProductImage, ProductUpdatedDetail } from '../event-bridge.types';
 
 const client = new DynamoDBClient({ region: process.env.REGION });
 const dynamo = DynamoDBDocumentClient.from(client);
@@ -35,6 +35,24 @@ export const deleteProduct = async (tenantId: string, productId: string): Promis
     new DeleteCommand({
       TableName: TABLE_NAME,
       Key: { tenantId, productId },
+    }),
+  );
+};
+
+export const updateProduct = async (
+  tenantId: string,
+  productId: string,
+  fields: Omit<ProductUpdatedDetail, 'tenantId' | 'productId'>,
+): Promise<void> => {
+  const entries = Object.entries({ ...fields, updatedAt: new Date().toISOString() });
+
+  await dynamo.send(
+    new UpdateCommand({
+      TableName: TABLE_NAME,
+      Key: { tenantId, productId },
+      UpdateExpression: `SET ${entries.map((_, index) => `#field${index} = :value${index}`).join(', ')}`,
+      ExpressionAttributeNames: Object.fromEntries(entries.map(([key], index) => [`#field${index}`, key])),
+      ExpressionAttributeValues: Object.fromEntries(entries.map(([, value], index) => [`:value${index}`, value])),
     }),
   );
 };
