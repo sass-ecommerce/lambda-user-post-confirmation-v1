@@ -1,5 +1,5 @@
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
-import { DynamoDBDocumentClient, GetCommand, PutCommand, UpdateCommand } from '@aws-sdk/lib-dynamodb';
+import { DeleteCommand, DynamoDBDocumentClient, GetCommand, PutCommand, UpdateCommand } from '@aws-sdk/lib-dynamodb';
 import { ProductCreatedDetail, ProductImage } from '../event-bridge.types';
 
 const client = new DynamoDBClient({ region: process.env.REGION });
@@ -28,6 +28,15 @@ export const getProduct = async (tenantId: string, productId: string) => {
     }),
   );
   return Item;
+};
+
+export const deleteProduct = async (tenantId: string, productId: string): Promise<void> => {
+  await dynamo.send(
+    new DeleteCommand({
+      TableName: TABLE_NAME,
+      Key: { tenantId, productId },
+    }),
+  );
 };
 
 export const updateProductImages = async (

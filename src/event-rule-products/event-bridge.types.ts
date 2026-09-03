@@ -37,6 +37,12 @@ export interface ProductImageDetail {
   images: ProductImage[];
 }
 
+export interface ProductDeletedDetail {
+  tenantId: string;
+  productId: string;
+}
+
 export type ProductEvent =
   | EventBridgeEvent<'product.created', ProductCreatedDetail>
-  | EventBridgeEvent<'product.image.added', ProductImageDetail>;
+  | EventBridgeEvent<'product.image.added', ProductImageDetail>
+  | EventBridgeEvent<'product.deleted', ProductDeletedDetail>;
