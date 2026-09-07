@@ -22,6 +22,14 @@ preSignUp:
         path: /pre-signup
         method: post
 
+postAuthentication:
+  handler: src/trigger-post-authentication/index.postAuthentication
+  description: Cognito Post Authentication trigger — syncs a new Google user to the backend on their first login
+  events:
+    - httpApi:
+        path: /post-authentication
+        method: post
+
 productsUpload:
   handler: src/trigger-products-upload/index.productsUpload
   description: S3 PUT event handler — logs incoming product file uploads from a bucket

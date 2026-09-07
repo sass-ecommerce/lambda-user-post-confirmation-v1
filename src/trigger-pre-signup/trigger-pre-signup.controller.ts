@@ -4,7 +4,6 @@ import {
   ListUsersCommand,
   AdminLinkProviderForUserCommand,
 } from '@aws-sdk/client-cognito-identity-provider';
-import axios from 'axios';
 
 const client = new CognitoIdentityProviderClient({});
 
@@ -24,28 +23,6 @@ const findUserByEmail = async (userPoolId: string, email: string) => {
 // SignUpCommand), while federated users get "<ProviderName>_<providerUserId>".
 const isNativeUsername = (username: string | undefined, email: string): boolean =>
   username?.toLowerCase() === email.toLowerCase();
-
-// Post Confirmation never fires for federated sign-ins, so a brand-new Google
-// user (no existing native account to link to) is synced to the backend here instead.
-const syncUserWithBackend = async (event: PreSignUpTriggerEvent): Promise<void> => {
-  const { sub, email, name } = event.request.userAttributes;
-
-  try {
-    const response = await axios.post(`${process.env.BACKEND_URL}/api/users/cognito-trigger`, {
-      triggerSource: event.triggerSource,
-      userPoolId: event.userPoolId,
-      userName: event.userName,
-      request: {
-        userAttributes: { sub, email, name },
-      },
-    });
-
-    console.log('Pre sign-up sync forwarded successfully for user:', event.userName, response.data);
-  } catch (error) {
-    console.error('Error forwarding pre sign-up sync for user:', event.userName, error);
-    throw error;
-  }
-};
 
 const handleExternalProvider = async (
   event: PreSignUpTriggerEvent,
@@ -87,8 +64,6 @@ const handleExternalProvider = async (
     console.log(
       `Linked federated user ${event.userName} to existing native user for email=${email}`,
     );
-  } else {
-    await syncUserWithBackend(event);
   }
 
   event.response.autoConfirmUser = true;

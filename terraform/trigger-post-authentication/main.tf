@@ -1,5 +1,5 @@
 locals {
-  function_name = "${var.project}-lambda-trigger-pre-signup-${var.stage}-01"
+  function_name = "${var.project}-lambda-trigger-post-authentication-${var.stage}-01"
 }
 
 module "lambda" {
@@ -7,14 +7,15 @@ module "lambda" {
 
   function_name      = local.function_name
   runtime            = "nodejs24.x"
-  handler            = "index.preSignUp"
+  handler            = "index.postAuthentication"
   role_arn           = var.role_arn
-  filename           = "${path.module}/../../trigger-pre-signup.zip"
-  source_code_hash   = filebase64sha256("${path.module}/../../trigger-pre-signup.zip")
+  filename           = "${path.module}/../../trigger-post-authentication.zip"
+  source_code_hash   = filebase64sha256("${path.module}/../../trigger-post-authentication.zip")
   log_retention_days = 7
 
   environment_variables = {
-    STAGE = var.stage
+    STAGE       = var.stage
+    BACKEND_URL = var.backend_url
   }
 
   permissions = {
