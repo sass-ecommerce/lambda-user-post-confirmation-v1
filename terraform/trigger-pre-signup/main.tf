@@ -14,7 +14,8 @@ module "lambda" {
   log_retention_days = 7
 
   environment_variables = {
-    STAGE = var.stage
+    STAGE       = var.stage
+    BACKEND_URL = var.backend_url
   }
 
   permissions = {
