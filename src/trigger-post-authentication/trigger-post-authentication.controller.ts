@@ -1,23 +1,28 @@
 import { PostAuthenticationTriggerEvent } from 'aws-lambda';
 import axios from 'axios';
 
-// Native sign-in keeps Username as the email itself (see auth.service.ts's
-// SignUpCommand); federated users get "<ProviderName>_<providerUserId>".
 const isNativeUsername = (username: string, email: string): boolean =>
   username.toLowerCase() === email.toLowerCase();
 
-const syncUserWithBackend = async (event: PostAuthenticationTriggerEvent): Promise<void> => {
-  const { sub, email, name } = event.request.userAttributes;
+interface CognitoTriggerResponseBody {
+  code: number;
+  message: string;
+  data: {
+    id: string;
+    sub: string | null;
+    email: string;
+    firstName: string | null;
+    lastName: string | null;
+    isActive: boolean;
+  };
+}
 
+const syncUserWithBackend = async (event: PostAuthenticationTriggerEvent): Promise<void> => {
   try {
-    const response = await axios.post(`${process.env.BACKEND_URL}/api/users/cognito-trigger`, {
-      triggerSource: event.triggerSource,
-      userPoolId: event.userPoolId,
-      userName: event.userName,
-      request: {
-        userAttributes: { sub, email, name },
-      },
-    });
+    const response = await axios.post<CognitoTriggerResponseBody>(
+      `${process.env.BACKEND_URL}/api/users/cognito-trigger`,
+      event,
+    );
 
     console.log(
       'Post authentication sync forwarded successfully for user:',
@@ -37,9 +42,6 @@ export const postAuthentication = async (
   const { email, 'custom:id': dbId } = event.request.userAttributes;
   const isFederatedUser = Boolean(email) && !isNativeUsername(event.userName, email);
 
-  // Post Confirmation never fires for federated sign-ins, so the first
-  // Google login (no custom:id yet, meaning the backend never saw this user) is
-  // synced here instead. Subsequent logins already have custom:id and are skipped.
   if (isFederatedUser && !dbId) {
     await syncUserWithBackend(event);
   }
