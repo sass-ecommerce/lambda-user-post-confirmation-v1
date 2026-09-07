@@ -14,6 +14,14 @@ preToken:
         path: /pre-token
         method: post
 
+preSignUp:
+  handler: src/trigger-pre-signup/index.preSignUp
+  description: Cognito Pre Sign-up trigger — links a Google sign-in to an existing native account with the same email
+  events:
+    - httpApi:
+        path: /pre-signup
+        method: post
+
 productsUpload:
   handler: src/trigger-products-upload/index.productsUpload
   description: S3 PUT event handler — logs incoming product file uploads from a bucket

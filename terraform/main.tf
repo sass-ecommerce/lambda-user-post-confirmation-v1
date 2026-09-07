@@ -19,6 +19,16 @@ module "trigger_pre_token" {
   tags                  = local.tags
 }
 
+module "trigger_pre_signup" {
+  source = "./trigger-pre-signup"
+
+  project               = local.project
+  cognito_user_pool_arn = tolist(data.aws_cognito_user_pools.this.arns)[0]
+  role_arn              = data.aws_ssm_parameter.lambda_role_arn.value
+  stage                 = local.stage
+  tags                  = local.tags
+}
+
 module "trigger_products_upload" {
   source = "./trigger-products-upload"
 
