@@ -1,5 +1,5 @@
 locals {
-  function_name = "${var.project}-lambda-pre-token-${var.stage}-01"
+  function_name = "${var.project}-lambda-trigger-pre-signup-${var.stage}-01"
 }
 
 module "lambda" {
@@ -7,10 +7,10 @@ module "lambda" {
 
   function_name      = local.function_name
   runtime            = "nodejs24.x"
-  handler            = "index.preToken"
+  handler            = "index.preSignUp"
   role_arn           = var.role_arn
-  filename           = "${path.module}/../../pre-token.zip"
-  source_code_hash   = filebase64sha256("${path.module}/../../pre-token.zip")
+  filename           = "${path.module}/../../trigger-pre-signup.zip"
+  source_code_hash   = filebase64sha256("${path.module}/../../trigger-pre-signup.zip")
   log_retention_days = 7
 
   environment_variables = {
